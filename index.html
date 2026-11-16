@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <title>RDC Post Studio</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="RDC Post Studio home">
+      <img src="logo.png" alt="Rally Dink Central">
+      <span class="brand-copy"><strong>Post Studio</strong><small>Rally Dink Central</small></span>
+    </a>
+  </header>
+
+  <main>
+    <div class="editor-shell">
+      <nav class="mode-tabs" aria-label="Post type" role="tablist">
+        <button class="mode-tab is-active" id="photoTab" type="button" role="tab" aria-selected="true" aria-controls="photoResults" data-mode="photo">Photo templates <span>34</span></button>
+        <button class="mode-tab" id="textTab" type="button" role="tab" aria-selected="false" aria-controls="textResults" data-mode="text">Text layouts <span>9</span></button>
+      </nav>
+
+    <section class="workspace" aria-label="Post settings">
+      <div class="step-card upload-card">
+        <div class="step-heading">
+          <span class="step-number">01</span>
+          <div><h1>Choose a photo</h1><p>JPG, PNG, or WebP</p></div>
+        </div>
+        <label class="drop-zone" id="dropZone" for="imageInput">
+          <input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp">
+          <span class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg></span>
+          <span class="drop-title">Drop your photo here</span>
+          <span class="drop-help">or click to browse</span>
+          <span class="file-name" id="fileName"></span>
+        </label>
+        <section class="photo-adjust" id="photoAdjust" aria-labelledby="photoAdjustTitle" hidden>
+          <div class="photo-adjust-heading">
+            <div><h2 id="photoAdjustTitle">Adjust photo position</h2><p>Drag the photo or use the arrows</p></div>
+            <button class="position-reset" id="positionReset" type="button">Reset</button>
+          </div>
+          <div class="position-workspace">
+            <div class="position-preview" id="positionPreview" tabindex="0" aria-label="Drag to reposition the uploaded photo">
+              <img id="positionPreviewImage" alt="Photo position preview">
+              <span class="position-target" aria-hidden="true"></span>
+            </div>
+            <div class="position-nudges" aria-label="Move photo">
+              <button type="button" data-position-nudge="up" aria-label="Move photo up"><svg viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></svg></button>
+              <button type="button" data-position-nudge="left" aria-label="Move photo left"><svg viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></svg></button>
+              <button type="button" data-position-nudge="down" aria-label="Move photo down"><svg viewBox="0 0 24 24"><path d="m6 10 6 6 6-6"/></svg></button>
+              <button type="button" data-position-nudge="right" aria-label="Move photo right"><svg viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></svg></button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="step-card details-card">
+        <div class="step-heading">
+          <span class="step-number">02</span>
+          <div><h2 id="detailsTitle">Add a name</h2><p id="detailsHelp">Optional, leave blank if not needed</p></div>
+        </div>
+        <div class="fields">
+          <label class="field">
+            <span id="nameFieldLabel">Name or title</span>
+            <input id="nameInput" type="text" maxlength="55" placeholder="e.g. Juan Dela Cruz">
+            <small><span id="nameCount">0</span>/55</small>
+          </label>
+          <div class="text-options" id="textOptions" hidden>
+            <label class="field text-field">
+              <span>Text</span>
+              <textarea id="messageInput" maxlength="320" rows="6" placeholder="Add event details, a quote, a greeting, or any short message..."></textarea>
+              <small><span id="messageCount">0</span>/320</small>
+            </label>
+            <div class="overlay-controls">
+              <label class="color-field">
+                <span>Overlay color</span>
+                <span class="color-control"><input id="overlayColor" type="color" value="#000000"><output id="colorValue">#000000</output></span>
+              </label>
+              <label class="range-field">
+                <span>Strength <output id="opacityValue">68%</output></span>
+                <input id="overlayOpacity" type="range" min="30" max="90" value="68">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      </section>
+    </div>
+
+    <section class="preview-style-toolbar" aria-labelledby="previewStyleTitle">
+      <div>
+        <p class="eyebrow">Listing view</p>
+        <h2 id="previewStyleTitle">Preview style</h2>
+      </div>
+      <div class="preview-style-options" role="group" aria-label="Preview style">
+        <button class="preview-style-button is-active" type="button" data-preview-style="default" aria-pressed="true">Default</button>
+        <button class="preview-style-button" type="button" data-preview-style="facebook" aria-pressed="false">Facebook</button>
+        <button class="preview-style-button" type="button" data-preview-style="instagram" aria-pressed="false">Instagram</button>
+      </div>
+    </section>
+
+    <section class="results-panel" id="photoResults" role="tabpanel" aria-labelledby="photoTab">
+      <div class="results-heading">
+        <div><p class="eyebrow">1080 × 1080 px</p><h2>Photo templates</h2></div>
+      </div>
+      <div class="template-grid" id="photoTemplateGrid">
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasFocus" width="1080" height="1080" aria-label="Focus template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 1</h3></div><button class="download-btn" data-canvas="canvasFocus" data-name="design-1" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasOutline" width="1080" height="1080" aria-label="Outline template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 2</h3></div><button class="download-btn" data-canvas="canvasOutline" data-name="design-2" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasSlashes" width="1080" height="1080" aria-label="Full-photo diagonal accents preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 3</h3></div><button class="download-btn" data-canvas="canvasSlashes" data-name="design-3" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasOpenCorners" width="1080" height="1080" aria-label="Full-photo open corners preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 4</h3></div><button class="download-btn" data-canvas="canvasOpenCorners" data-name="design-4" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasPulse" width="1080" height="1080" aria-label="Full-photo pulse lines preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 5</h3></div><button class="download-btn" data-canvas="canvasPulse" data-name="design-5" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasCrest" width="1080" height="1080" aria-label="Full-photo crest preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 6</h3></div><button class="download-btn" data-canvas="canvasCrest" data-name="design-6" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasFineLine" width="1080" height="1080" aria-label="Minimal fine line preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 7</h3></div><button class="download-btn" data-canvas="canvasFineLine" data-name="design-7" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasOffset" width="1080" height="1080" aria-label="Minimal offset preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 8</h3></div><button class="download-btn" data-canvas="canvasOffset" data-name="design-8" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasCornerDots" width="1080" height="1080" aria-label="Minimal corner dots preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 9</h3></div><button class="download-btn" data-canvas="canvasCornerDots" data-name="design-9" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasUnderline" width="1080" height="1080" aria-label="Minimal underline preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 10</h3></div><button class="download-btn" data-canvas="canvasUnderline" data-name="design-10" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTwinBars" width="1080" height="1080" aria-label="Minimal twin bars preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 11</h3></div><button class="download-btn" data-canvas="canvasTwinBars" data-name="design-11" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasRedPin" width="1080" height="1080" aria-label="Minimal red pin preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 12</h3></div><button class="download-btn" data-canvas="canvasRedPin" data-name="design-12" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasMinimal" width="1080" height="1080" aria-label="Minimal template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 13</h3></div><button class="download-btn" data-canvas="canvasMinimal" data-name="design-13" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasEdge" width="1080" height="1080" aria-label="Edge template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 14</h3></div><button class="download-btn" data-canvas="canvasEdge" data-name="design-14" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasClassic" width="1080" height="1080" aria-label="Classic template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 15</h3></div><button class="download-btn" data-canvas="canvasClassic" data-name="design-15" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasMatchday" width="1080" height="1080" aria-label="Matchday template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 16</h3></div><button class="download-btn" data-canvas="canvasMatchday" data-name="design-16" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasRibbon" width="1080" height="1080" aria-label="Ribbon template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 17</h3></div><button class="download-btn" data-canvas="canvasRibbon" data-name="design-17" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasCornerFlag" width="1080" height="1080" aria-label="Corner flag template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 18</h3></div><button class="download-btn" data-canvas="canvasCornerFlag" data-name="design-18" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasCenterline" width="1080" height="1080" aria-label="Centerline template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 19</h3></div><button class="download-btn" data-canvas="canvasCenterline" data-name="design-19" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTopline" width="1080" height="1080" aria-label="Topline template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 20</h3></div><button class="download-btn" data-canvas="canvasTopline" data-name="design-20" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasBaseline" width="1080" height="1080" aria-label="Baseline template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 21</h3></div><button class="download-btn" data-canvas="canvasBaseline" data-name="design-21" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasBanner" width="1080" height="1080" aria-label="Banner template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 22</h3></div><button class="download-btn" data-canvas="canvasBanner" data-name="design-22" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasLowerThird" width="1080" height="1080" aria-label="Lower third template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 23</h3></div><button class="download-btn" data-canvas="canvasLowerThird" data-name="design-23" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasClean" width="1080" height="1080" aria-label="Clean template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 24</h3></div><button class="download-btn" data-canvas="canvasClean" data-name="design-24" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasCourtside" width="1080" height="1080" aria-label="Courtside template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 25</h3></div><button class="download-btn" data-canvas="canvasCourtside" data-name="design-25" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasSpotlight" width="1080" height="1080" aria-label="Spotlight template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 26</h3></div><button class="download-btn" data-canvas="canvasSpotlight" data-name="design-26" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasCorner" width="1080" height="1080" aria-label="Corner template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 27</h3></div><button class="download-btn" data-canvas="canvasCorner" data-name="design-27" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasPrint" width="1080" height="1080" aria-label="Print template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 28</h3></div><button class="download-btn" data-canvas="canvasPrint" data-name="design-28" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasStudio" width="1080" height="1080" aria-label="Studio template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 29</h3></div><button class="download-btn" data-canvas="canvasStudio" data-name="design-29" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasSideRail" width="1080" height="1080" aria-label="Side rail template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 30</h3></div><button class="download-btn" data-canvas="canvasSideRail" data-name="design-30" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasFrame" width="1080" height="1080" aria-label="Gallery frame template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 31</h3></div><button class="download-btn" data-canvas="canvasFrame" data-name="design-31" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasScoreboard" width="1080" height="1080" aria-label="Scoreboard template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 32</h3></div><button class="download-btn" data-canvas="canvasScoreboard" data-name="design-32" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasKeepsake" width="1080" height="1080" aria-label="Keepsake template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 33</h3></div><button class="download-btn" data-canvas="canvasKeepsake" data-name="design-33" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTicket" width="1080" height="1080" aria-label="Ticket template preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 34</h3></div><button class="download-btn" data-canvas="canvasTicket" data-name="design-34" disabled>Download</button></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="results-panel" id="textResults" role="tabpanel" aria-labelledby="textTab" hidden>
+      <div class="results-heading">
+        <div><p class="eyebrow">1080 × 1080 px</p><h2>Text layouts</h2></div>
+      </div>
+      <div class="text-template-grid" id="textTemplateGrid">
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasMessage" width="1080" height="1080" aria-label="Text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 35</h3></div><button class="download-btn" data-canvas="canvasMessage" data-name="design-35" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTextCard" width="1080" height="1080" aria-label="Title card text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 36</h3></div><button class="download-btn" data-canvas="canvasTextCard" data-name="design-36" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTextSplit" width="1080" height="1080" aria-label="Split story text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 37</h3></div><button class="download-btn" data-canvas="canvasTextSplit" data-name="design-37" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTextEditorial" width="1080" height="1080" aria-label="Editorial text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 38</h3></div><button class="download-btn" data-canvas="canvasTextEditorial" data-name="design-38" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTextBottom" width="1080" height="1080" aria-label="Bottom story text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 39</h3></div><button class="download-btn" data-canvas="canvasTextBottom" data-name="design-39" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTextQuoteWindow" width="1080" height="1080" aria-label="Quote window text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 40</h3></div><button class="download-btn" data-canvas="canvasTextQuoteWindow" data-name="design-40" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTextRedline" width="1080" height="1080" aria-label="Redline text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 41</h3></div><button class="download-btn" data-canvas="canvasTextRedline" data-name="design-41" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTextHeadline" width="1080" height="1080" aria-label="Headline text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 42</h3></div><button class="download-btn" data-canvas="canvasTextHeadline" data-name="design-42" disabled>Download</button></div>
+        </article>
+        <article class="template-card">
+          <div class="canvas-wrap"><canvas id="canvasTextCaption" width="1080" height="1080" aria-label="Caption block text layout preview"></canvas></div>
+          <div class="card-footer"><div><h3>Design 43</h3></div><button class="download-btn" data-canvas="canvasTextCaption" data-name="design-43" disabled>Download</button></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Scroll back to the top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m0 0-6 6m6-6 6 6"/></svg>
+  </button>
+
+  <script src="app.js"></script>
+</body>
+</html>
