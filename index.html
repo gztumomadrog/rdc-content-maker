@@ -94,10 +94,18 @@
         <p class="eyebrow">Listing view</p>
         <h2 id="previewStyleTitle">Preview style</h2>
       </div>
-      <div class="preview-style-options" role="group" aria-label="Preview style">
-        <button class="preview-style-button is-active" type="button" data-preview-style="default" aria-pressed="true">Default</button>
-        <button class="preview-style-button" type="button" data-preview-style="facebook" aria-pressed="false">Facebook</button>
-        <button class="preview-style-button" type="button" data-preview-style="instagram" aria-pressed="false">Instagram</button>
+      <div class="preview-toolbar-controls">
+        <label class="design-filter" for="designFilter">
+          <span>Show design</span>
+          <select id="designFilter" aria-label="Show a specific design">
+            <option value="all">All designs</option>
+          </select>
+        </label>
+        <div class="preview-style-options" role="group" aria-label="Preview style">
+          <button class="preview-style-button is-active" type="button" data-preview-style="default" aria-pressed="true">Default</button>
+          <button class="preview-style-button" type="button" data-preview-style="facebook" aria-pressed="false">Facebook</button>
+          <button class="preview-style-button" type="button" data-preview-style="instagram" aria-pressed="false">Instagram</button>
+        </div>
       </div>
     </section>
 
@@ -295,5 +303,6 @@
   </button>
 
   <script src="app.js"></script>
+  <script src="design-filter.js"></script>
 </body>
 </html>
