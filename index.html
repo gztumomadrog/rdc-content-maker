@@ -302,7 +302,40 @@
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m0 0-6 6m6-6 6 6"/></svg>
   </button>
 
+  <div class="template-adjust-modal" id="templateAdjustModal" hidden>
+    <div class="template-adjust-backdrop" data-adjust-close></div>
+    <section class="template-adjust-dialog" role="dialog" aria-modal="true" aria-labelledby="templateAdjustTitle">
+      <header class="template-adjust-header">
+        <div>
+          <p class="eyebrow">Image position</p>
+          <h2 id="templateAdjustTitle">Adjust design</h2>
+        </div>
+        <button class="template-adjust-close" id="templateAdjustClose" type="button" aria-label="Close position editor">&times;</button>
+      </header>
+      <div class="template-adjust-body">
+        <div class="template-adjust-stage" id="templateAdjustStage" tabindex="0" aria-label="Drag to reposition the photo">
+          <canvas id="templateAdjustCanvas" width="1080" height="1080"></canvas>
+          <span>Drag the image to reposition it</span>
+        </div>
+        <div class="template-adjust-controls">
+          <p>Position changes apply to every design.</p>
+          <div class="template-adjust-nudges" aria-label="Move photo">
+            <button type="button" data-adjust-nudge="up" aria-label="Move photo up">&uarr;</button>
+            <button type="button" data-adjust-nudge="left" aria-label="Move photo left">&larr;</button>
+            <button type="button" data-adjust-nudge="down" aria-label="Move photo down">&darr;</button>
+            <button type="button" data-adjust-nudge="right" aria-label="Move photo right">&rarr;</button>
+          </div>
+          <div class="template-adjust-actions">
+            <button class="template-adjust-reset" id="templateAdjustReset" type="button">Reset</button>
+            <button class="template-adjust-download" id="templateAdjustDownload" type="button">Download</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <script src="app.js"></script>
   <script src="design-filter.js"></script>
+  <script src="template-adjuster.js"></script>
 </body>
 </html>
