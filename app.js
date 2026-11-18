@@ -1703,19 +1703,20 @@ function loadFile(file) {
   reader.readAsDataURL(file);
 }
 
-function downloadCanvas(canvas, templateName) {
+function downloadCanvas(canvas, templateName, downloadSource = "template_card") {
   try {
     const link = document.createElement("a");
     link.download = `${state.fileStem}-${templateName}.jpg`;
     link.href = canvas.toDataURL("image/jpeg", .94);
     link.hidden = true;
     document.body.appendChild(link);
-    link.click();
-    link.remove();
     trackEvent("image_downloaded", {
       design: templateName,
-      content_type: state.mode
+      content_type: state.mode,
+      download_source: downloadSource
     });
+    link.click();
+    link.remove();
   } catch (error) {
     window.alert("This image could not be downloaded. Please reload the page and try again.");
   }

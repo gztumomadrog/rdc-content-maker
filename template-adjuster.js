@@ -197,7 +197,7 @@
   modalDownload.addEventListener("click", () => {
     if (!activeTemplate) return;
     finishGlobalRender();
-    downloadCanvas(activeTemplate.canvas, activeTemplate.downloadName);
+    downloadCanvas(activeTemplate.canvas, activeTemplate.downloadName, "position_editor");
   });
 
   closeButton.addEventListener("click", closeModal);
