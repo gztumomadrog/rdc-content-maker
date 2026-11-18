@@ -109,6 +109,9 @@
     title.textContent = `${designName} position`;
     modalDownload.disabled = downloadButton.disabled;
     renderActiveTemplate();
+    trackEvent("position_editor_opened", {
+      design: downloadButton.dataset.name
+    });
     modal.hidden = false;
     document.body.classList.add("has-adjust-modal");
     closeButton.focus();

@@ -32,6 +32,11 @@ const positionPreviewImage = document.querySelector("#positionPreviewImage");
 const positionReset = document.querySelector("#positionReset");
 const positionNudgeButtons = [...document.querySelectorAll("[data-position-nudge]")];
 
+function trackEvent(name, parameters = {}) {
+  if (typeof window.gtag !== "function") return;
+  window.gtag("event", name, parameters);
+}
+
 const PANEL_TEMPLATE_KEYS = {
   canvasCourtside: "courtside",
   canvasSpotlight: "spotlight",
@@ -1685,6 +1690,11 @@ function loadFile(file) {
       dropZone.querySelector(".drop-help").textContent = "Click to choose another";
       setReady(true);
       renderAll();
+      trackEvent("photo_uploaded", {
+        file_type: file.type,
+        image_width: image.naturalWidth,
+        image_height: image.naturalHeight
+      });
       const activeResults = state.mode === "text" ? textResults : photoResults;
       activeResults.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -1702,6 +1712,10 @@ function downloadCanvas(canvas, templateName) {
     document.body.appendChild(link);
     link.click();
     link.remove();
+    trackEvent("image_downloaded", {
+      design: templateName,
+      content_type: state.mode
+    });
   } catch (error) {
     window.alert("This image could not be downloaded. Please reload the page and try again.");
   }
